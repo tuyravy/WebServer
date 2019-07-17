@@ -1,0 +1,216 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <span style="font-size:16px;color:black">
+                        <i class="fa fa-edit"></i> របាយការណ៍សង្ខេបប្រមូលប្រាក់ពិន័យប្រចាំខែសម្រាប់អតិថិជនយឺតយ៉ា​វ
+                    </span>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="#">Settings 1</a>
+                                </li>
+                                <li>
+                                    <a href="#">Settings 2</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="breadcrumb flat row nopadding" style="margin-top:-10px;">
+                        <a href="@Url.Action("Index","Penalty")">Exception (MFI)</a>
+                        <a href="@Url.Action("Summary_mfi","Penalty")">Summary MFI</a>
+                        <a href="@Url.Action("Full_Year_Monthly","Penalty")">Full Year Monthly</a>
+                        <a href="@Url.Action("Exception_All","Penalty")">Exception All</a>
+                        <a href="@Url.Action("Summary_All","Penalty")">Summary NGO & MFI</a>
+                        <a href="@Url.Action("Full_Year_Weekly","Penalty")" class="active">Full Year Weekly</a>
+                    </div>
+                    <p></p>
+                    <div class="table-responsive">
+                        <div class="row nopadding">
+                            <div class="col-md-6"></div>
+                            <div class="col-md-6 nopadding">
+                                <span class="pull-right">
+                                    <button type="button" class="btn btn-primary" onclick="javascript:printDiv('print_report')"><i class="fa fa-save"></i> Print</button>
+                                </span>
+                                <span class="pull-right">
+                                    <button type="button" class="btn btn-success"><i class="fa fa-file-excel-o"></i> Excel</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div id="print_report">
+                            <div class="col-md-12" style="display:none;" id="header_print">
+                                <div style="text-align:center;margin-left:250px;">
+                                    <img src="~/assets/images/report_logo.png" alt="user" style="width:90px;margin-top:20px;">
+                                    <img src="~/assets/images/logo_main.PNG" style="width:380px;" alt="user">
+                                </div>
+
+                                <h5 style="color:rgba(0,0,0,0.87);text-align:center;margin-left:320px;font-weight:bold;text-decoration: underline">របាយការណ៍សង្ខេបប្រមូលប្រាក់ពិន័យប្រចាំខែសម្រាប់អតិថិជនយឺតយ៉ា​វ</h5>
+                                <div class="row"> <span style="font-weight:bold;">នាយកដ្ឋានព័ត៌មានវិទ្យា</span></div>
+                                <div class="row"> <span style="font-weight:bold;">ផ្នែកគ្រប់គ្រង និងគាំទ្រប្រព័ន្ធ</span></div>
+
+                                <br />
+                            </div>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr class="active">
+                                        <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;" rowspan="3">ល.រ</td>
+                                        <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;" rowspan="3">សាខា</td>
+                                        <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;" rowspan="3">កូដសាខា</td>
+                                        <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;" rowspan="3">
+                                            សរុប ២០១៨
+                                        </td>
+                                        <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;" rowspan="3">
+                                            មករា/២០១៩
+                                        </td>
+                                        <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;" rowspan="3">
+                                            កុម្ភៈ/២០១៩
+                                        </td>
+                                        <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;" rowspan="3">
+                                            មិនា/២០១៩
+                                        </td>
+                                        <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;" rowspan="3">
+                                            មេសា/២០១៩
+
+                                        </td>
+                                        <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;" rowspan="3">
+                                            ឧសភា/២០១៩
+
+                                        </td>
+                                        <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;" rowspan="3">
+                                            មិថុនា/២០១៩
+
+                                        </td>
+                                        <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;" rowspan="3">
+                                            កក្កដា/២០១៩
+
+                                        </td>
+                                        <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;" rowspan="3">
+                                            សីហា/២០១៩
+
+
+                                        </td>
+
+                                        <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;" rowspan="3">
+                                            កញ្ញា/២០១៩
+
+
+                                        </td>
+                                        <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;" rowspan="3">
+                                            តុលា/២០១៩
+
+
+                                        </td>
+                                        <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;" rowspan="3">
+                                            វិច្ឆិកា/២០១៩
+
+
+                                        </td>
+                                        <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;" rowspan="3">
+                                            ធ្នូ/២០១៩
+
+
+                                        </td>
+                                        <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;" rowspan="3">
+                                            សរុប ២០១៩
+
+
+
+                                        </td>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr style="font-weight:bold;">
+                                        <td style="text-align:right" colspan="3">សរុប </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /page content -->
+    <script>
+
+
+    function printDiv(divID) {
+    //Get the HTML of div
+    var divElements = document.getElementById(divID).innerHTML;
+    //Get the HTML of whole page
+    var oldPage = document.body.innerHTML;
+    //Reset the page's HTML with div's HTML onl
+    document.body.innerHTML =
+        "<html><head><title></title></head><body>" +
+        divElements + "</body>";
+        var table=document.getElementById("print_report");
+        var r=0;
+        //document.getElementById("header_print").style.display="inline-block";
+        //document.getElementById("footer_print").style.display="inline-block";
+
+    //Print Page
+    window.print();
+    //Restore orignal HTML
+    document.body.innerHTML = oldPage;
+    window.location.href="";
+    //window.location.href="{{route('settlement.dashboard')}}";
+    document.getElementById("checkbox").checked = false;
+    }
+    </script>

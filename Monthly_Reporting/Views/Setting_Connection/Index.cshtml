@@ -1,0 +1,124 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Connection.cshtml";
+}
+<hr />
+
+<form class="form-horizontal" method="post" action="@Url.Action("SetConnection", "Setting_Connection")">
+
+    <div class="form-group">
+        <label for="inputEmail3" class="col-sm-4 control-label">Server Name</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" name="ServerName" id="ServerName" placeholder="Server Name">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-4 control-label">Login</label>
+        <div class="col-sm-8">
+            <input type="text" value="sa" class="form-control" name="UserName" id="UserName" placeholder="Login Name">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-4 control-label">Password</label>
+        <div class="col-sm-8">
+            <input type="password" class="form-control" name="Password" id="Password" placeholder="Password">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-4 control-label">Database Name:</label>
+        <div class="col-sm-8">
+            <select class="form-control" id="DbName" name="dbname">
+                <option value="">Select Database</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox"> Remember me
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-plug" aria-hidden="true"></i> Connect</button>
+            <button type="submit" class="btn btn-danger"><i class="fa fa-close"></i> Cancel</button>
+        </div>
+    </div>
+</form>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+@Scripts.Render("~/Scripts/jquery.min.js")
+
+<script>
+    $(document).ready(function () {
+       
+        var _token = $('meta[name="csrf-token"]').attr('content');
+        //check branch name
+        var dbcount = $("#DbName").val().length;
+        console.log(dbcount);
+        if (dbcount == 0) {
+            $("#DbName").on("click", function () {
+                var ServerName = $("#ServerName").val();
+                var UserName = $("#UserName").val();
+                var Password = $("#Password").val();
+                $.ajax({
+                    method: 'POST',
+                    url: "@Url.Action("Select_db", "Setting_Connection")",
+                    //dataType: "JSON",
+                    data: {
+                        _token: _token,
+                        ServerName: ServerName,
+                        UserName: UserName,
+                        Password: Password
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        $("#DbName").html(data);
+
+                    },
+                    error: function (data) {
+
+                    }
+                });
+
+
+            });
+        } else {
+            $("#DbName").on("change", function () {
+            var ServerName = $("#ServerName").val();
+            var UserName = $("#UserName").val();
+            var Password = $("#Password").val();
+            $.ajax({
+                method: 'POST',
+                url: "@Url.Action("Select_db", "Setting_Connection")",
+                //dataType: "JSON",
+                data: {
+                    _token: _token,
+                    ServerName: ServerName,
+                    UserName: UserName,
+                    Password: Password
+                },
+                success: function (data) {
+                    console.log(data);
+                    $("#DbName").html(data);
+
+                },
+                error: function (data) {
+
+                }
+            });
+
+
+        });
+        }
+        
+
+
+    });
+
+</script>

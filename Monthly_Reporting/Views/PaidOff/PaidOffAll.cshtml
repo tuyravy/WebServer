@@ -1,0 +1,236 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using System.Data;
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+
+                <div class="x_title">
+                    <span style="font-size:16px;color:black"><i class="fa fa-edit"></i> របាយការណ៍សង្ខេបអតិថិជនបង់ផ្តាច់</span>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="#">Settings 1</a>
+                                </li>
+                                <li>
+                                    <a href="#">Settings 2</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="breadcrumb flat row nopadding" style="margin-top:-10px;">
+                        <a href="@Url.Action("Index","PaidOff")">អតិថិជនផ្ដាច់ (MFI)</a>
+                        <a href="@Url.Action("PaidOffAll","PaidOff")" class="active">អតិថិជនផ្ដាច់ (MFI & NGO)</a>
+                    </div>
+                    <p></p>
+                    <fieldset class="scheduler-border">
+                        <legend>ព័ត៌មានស្វែងរក</legend>
+                        <form class="form-horizontal" action="@Url.Action("SearchReportdatePaidOffSummary", "PaidOff")" method="post">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" style="text-align:right">កាលបរិច្ឆេទរបាការណ៍</label>
+                                <div class="col-sm-3">
+                                   
+                                    @{
+                                        if (ViewBag.date_start != null)
+                                        {
+                                            <input type="text" class="form-control" id="date_start" name="date_start" value="@String.Format("{0:yyyy-MM-dd}", ViewBag.date_start)" placeholder="@DateTime.Now" autocomplete="off">
+                                        }
+                                        else
+                                        {
+                                            DateTime value = DateTime.Now;
+                                            <input type="text" class="form-control" id="date_start" name="date_start" value="@value" placeholder="@DateTime.Now" autocomplete="off">
+                                        }
+                                    }
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="submit" class="btn btn-primary">ស្វែងរក</button>
+                                    <a href="" class="btn btn-success"><i class="fa fa-refresh" aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                        </form>
+                    </fieldset>
+                    <fieldset class="scheduler-border">
+                        <legend></legend>
+                        <div class="row nopadding">
+                            <div class="col-md-6"></div>
+                            <div class="col-md-6 nopadding">
+                                <span class="pull-right">
+                                    <button type="button" class="btn btn-primary" onclick="javascript:printDiv('print_report')"><i class="fa fa-save"></i> Print</button>
+                                </span>
+                                <span class="pull-right">
+                                    <button type="button" class="btn btn-success"><i class="fa fa-file-excel-o"></i> Excel</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <div id="print_report">
+                                <div class="col-md-12" style="display:none;" id="header_print">
+                                    <div style="text-align:center;margin-left:250px;">
+                                        <img src="~/assets/images/report_logo.png" alt="user" style="width:90px;margin-top:20px;">
+                                        <img src="~/assets/images/logo_main.PNG" style="width:380px;" alt="user">
+                                    </div>
+                                    <h5 style="color:rgba(0,0,0,0.87);text-align:center;margin-left:320px;font-weight:bold;text-decoration: underline">របាយការណ៍ប្រមូលបំណុលលុបចេញពីបញ្ជី</h5>
+                                    <div class="row">
+                                        <span style="font-weight:bold; text-align:center;margin-left:410px ;font-weight:bold;font-size:12px">ប្រចាំខែៈ</span>
+                                        @{
+                                            if (ViewBag.date_start != null)
+                                            {
+                                                @String.Format("{0:dd/MMM/yyyy}", ViewBag.date_start);
+                                            }
+                                            else
+                                            {
+                                                DateTime value = DateTime.Now;
+                                                @String.Format("{0:dd/MMM/yyyy}", value);
+                                            }
+                                        }
+                                    </div>
+                                    @*<div class="row"> <span style="font-weight:bold;">នាយកដ្ឋានព័ត៌មានវិទ្យា</span></div>
+                                    <div class="row"> <span style="font-weight:bold;">ផ្នែកគ្រប់គ្រង និងគាំទ្រប្រព័ន្ធ</span></div>*@
+                                    <br />
+                                </div>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr class="active" style="boder;border-bottom:3pt solid #22d4ae;">
+                                            <td style="vertical-align:middle">ល.រ</td>
+                                            <td style="vertical-align:middle">សាខា</td>
+                                            <td style="text-align:center">
+                                                ឈ្មោះសាខា
+                                            </td>
+                                            <td style="text-align:center">
+                                                ចំនួនអតិថិជនផ្ដាច់
+                                            </td>
+                                            <td style="text-align:center">
+                                                ទឹកប្រាក់ផ្ដាច់សរុប
+                                            </td>
+                                            <td style="text-align:center">
+                                                %នៃចំនួនអតិថិជនខ្ចីបន្ត
+                                            </td>
+                                            <td style="text-align:center">
+                                                %នៃចំនួនអតិថិជនមិនខ្ចីបន្ត
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            double PaidOffAcc = 0;
+                                            double PaidOfAmt = 0;
+                                        }
+                                        @foreach (DataRow row in ViewBag.paidoff.Rows)
+                                        {
+                                            <tr>
+                                                <td>@row["BrCode"].ToString()</td>
+                                                <td>@row["BrName"].ToString()</td>
+                                                <td>@row["BrNameKh"].ToString()</td>
+                                                <td style="text-align:center">@String.Format("{0:N0}", row["PaidOffAcc"])@{ PaidOffAcc += double.Parse(row["PaidOffAcc"].ToString());}</td>
+                                                <td style="text-align:right">@String.Format("{0:N0}", row["PaidOfAmt"]) @{ PaidOfAmt += double.Parse(row["PaidOfAmt"].ToString());}</td>
+                                                <td style="text-align:right">% @String.Format("{0:N}", (float.Parse(row["ReNew%"].ToString()) * 100))</td>
+                                                <td style="text-align:right">% @String.Format("{0:N}", (float.Parse(row["NotReNew%"].ToString()) * 100))</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    
+                                        <tr style="font-weight:bold;">
+                                            <td colspan="3" rowspan="3" style="text-align:right">សរុប</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @PaidOffAcc)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @PaidOfAmt)</td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    
+                                </table>
+                                <br />
+                                <div class="col-md-12" style="display:none;" id="footer_print">
+                                    <div class="col-md-4" style="width:200px;text-align:center">
+                                        <span class="row" style="font-weight:bold;">រៀបចំដោយ</span>
+                                        <span class="row">មន្ត្រីប្រព័ន្ធធនាគារស្នូល</span>
+                                    </div>
+                                    <div class="col-md-4" style="width:300px;text-align:center">
+                                        <span class="row">ត្រួតពិនិត្យដោយ</span>
+                                        <div class="row">
+                                            <span>ប្រធាននាយកដ្ឋានព័ត៌មានវិទ្យា</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" style="width:300px;text-align:center">
+                                        <span class="row"> ត្រួតពិនិត្យដោយ</span>
+                                        <span class="row">ប្រធាននាយកដ្ឋានហិរញ្ញវត្ថុ</span>
+                                    </div>
+                                    <div class="col-md-4" style="width:200px;text-align:center">
+                                        <span class="row"> អនុម័តដោយ</span>
+                                        <span class="row">ប្រធាននាយិកាប្រតិបត្តិ</span>
+                                    </div>
+                                </div>
+                            </div>
+                </div>
+                        </fieldset>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /page content -->
+<style>
+    legend {
+        font-size: 12px;
+    }
+</style>
+@Scripts.Render("~/Scripts/jquery.min.js")
+<script>
+    jQuery(document).ready(function () {
+        $("#date_start").datepicker({
+            format: 'yyyy-mm-dd',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '+50y:c+nn',
+            maxDate: '-1d'
+        });
+        $("#date_end").datepicker({
+            format: 'yyyy-mm-dd',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '+50y:c+nn',
+            maxDate: '-1d'
+        });
+    });
+    function printDiv(divID) {
+    //Get the HTML of div
+    var divElements = document.getElementById(divID).innerHTML;
+    //Get the HTML of whole page
+    var oldPage = document.body.innerHTML;
+    //Reset the page's HTML with div's HTML onl
+    document.body.innerHTML =
+        "<html><head><title></title></head><body>" +
+        divElements + "</body>";
+        var table=document.getElementById("print_report");
+        var r=0;
+        document.getElementById("header_print").style.display="inline-block";
+        document.getElementById("footer_print").style.display="inline-block";
+    //Print Page
+    window.print();
+    //Restore orignal HTML
+    document.body.innerHTML = oldPage;
+    window.location.href="";
+    //window.location.href="{{route('settlement.dashboard')}}";
+    document.getElementById("checkbox").checked = false;
+    }
+</script>

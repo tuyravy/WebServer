@@ -1,0 +1,262 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using System.Data;
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <span style="font-size:16px;color:black">
+                        <i class="fa fa-edit"></i> របាយការណ៍បញ្ចេញទុនតាមអត្រាការប្រាក់
+                    </span>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="#">Settings 1</a>
+                                </li>
+                                <li>
+                                    <a href="#">Settings 2</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="breadcrumb flat row nopadding" style="margin-top:-10px;">
+                        <a href="@Url.Action("Index","DisbursmentByInterest")" class="active">បញ្ចេញទុនតាមអត្រាការប្រាក់ (MFI & PWS & All)</a>
+                        <a href="@Url.Action("MFIDisburInt","DisbursmentByInterest")">បញ្ចេញទុនតាមអត្រាការប្រាក់ (MFI)</a>
+                        <a href="@Url.Action("Disb_NGO_Int","DisbursmentByInterest")">បញ្ចេញទុនតាមអត្រាការប្រាក់ (PWS  & NGO)</a>
+                    </div>
+                    <p></p>
+                    <h4 style="font-size:12px;color:black;font-weight:bold;">1-Monthly Disbursement by Interest (Data Consolidate-All)</h4>
+                    <div class="table-responsive">
+                        <div class="row nopadding">
+                            <div class="col-md-6"></div>
+                            <div class="col-md-6 nopadding">
+                                <span class="pull-right">
+                                    <button type="button" class="btn btn-primary" onclick="javascript:printDiv('print_report')"><i class="fa fa-save"></i> Print</button>
+                                </span>
+                                <span class="pull-right">
+                                    <button type="button" class="btn btn-success"><i class="fa fa-file-excel-o"></i> Excel</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <div id="print_report">
+                                <div class="col-md-12" style="display:none;" id="header_print">
+                                    <div style="text-align:center;margin-left:250px;">
+                                        <img src="~/assets/images/report_logo.png" alt="user" style="width:90px;margin-top:20px;">
+                                        <img src="~/assets/images/logo_main.PNG" style="width:380px;" alt="user">
+                                    </div>
+                                    <h5 style="color:rgba(0,0,0,0.87);text-align:center;margin-left:320px;font-weight:bold;text-decoration: underline">របាយការណ៍ប្រមូលបំណុលលុបចេញពីបញ្ជី</h5>
+                                    <div class="row">
+                                        <span style="font-weight:bold; text-align:center;margin-left:410px ;font-weight:bold;font-size:12px">ប្រចាំខែៈ</span>
+                                    </div>
+                                    @*<div class="row"> <span style="font-weight:bold;">នាយកដ្ឋានព័ត៌មានវិទ្យា</span></div>
+                                     <div class="row"> <span style="font-weight:bold;">ផ្នែកគ្រប់គ្រង និងគាំទ្រប្រព័ន្ធ</span></div>*@
+                                    <br />
+                                </div>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr class="active">
+                                            <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;" rowspan="3">No</td>
+                                            <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;" rowspan="3">Monthly Rate</td>
+                                            <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;" rowspan="3">Yearly Rate</td>
+                                            <td style="text-align:center" colspan="5">
+                                                Result-Feb-2019
+                                            </td>
+                                            <td style="text-align:center" colspan="5">
+                                                Result-Mar-2019
+                                            </td>
+                                            <td style="text-align:center" colspan="5">
+                                                Variance
+                                            </td>
+                                        </tr>
+                                        <tr class="active" style="boder;border-bottom:3pt solid #22d4ae;white-space: nowrap;overflow: hidden;">
+                                            <td style="text-align:center">
+                                                # of Clients
+                                            </td>
+                                            <td style="text-align:center">
+                                                Amt Dis-KHR
+                                            </td>
+                                            <td style="text-align:center">
+                                                Amt Dis-USD
+                                            </td>
+                                            <td style="text-align:center">
+                                                % Cilent
+                                            </td>
+                                            <td style="text-align:center">
+                                                %Disb
+                                            </td>
+                                            <td style="text-align:center">
+                                                # of Clients
+                                            </td>
+                                            <td style="text-align:center">
+                                                Amt Dis-KHR
+                                            </td>
+                                            <td style="text-align:center">
+                                                Amt Dis-USD
+                                            </td>
+                                            <td style="text-align:center">
+                                                % Cilent
+                                            </td>
+                                            <td style="text-align:center">
+                                                %Disb
+                                            </td>
+                                            <td style="text-align:center">
+                                                # of Clients
+                                            </td>
+                                            <td style="text-align:center">
+                                                Amt Dis-KHR
+                                            </td>
+                                            <td style="text-align:center">
+                                                Amt Dis-USD
+                                            </td>
+                                            <td style="text-align:center">
+                                                % Cilent
+                                            </td>
+                                            <td style="text-align:center">
+                                                %Disb
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (DataRow row in ViewBag.disbRate.Rows)
+                                        {
+                                            <tr>
+                                                <td style="white-space: nowrap;overflow: hidden; text-align:center">@row["ID"].ToString()</td>
+                                                <td style="white-space: nowrap;overflow: hidden; text-align:center">@row["MONTHLY"].ToString()</td>
+                                                <td style="white-space: nowrap;overflow: hidden; text-align:center">@row["YEARLY"].ToString()</td>
+                                                <td style="white-space: nowrap;overflow: hidden; text-align:center">@row["CLIENTSPRE"].ToString()</td>
+                                                <td style="white-space: nowrap;overflow: hidden; text-align:center">@row["AMTDISKHRPRE"].ToString()</td>
+                                                <td style="white-space: nowrap;overflow: hidden; text-align:center">@row["AMTDISUSDPRE"].ToString()</td>
+                                                <td style="white-space: nowrap;overflow: hidden; text-align:center">@row["PERCILENTPRE"].ToString()</td>
+                                                <td style="white-space: nowrap;overflow: hidden; text-align:center">@row["PERDISBPRE"].ToString()</td>
+                                                <td style="white-space: nowrap;overflow: hidden; text-align:center">@row["CLIENTS"].ToString()</td>
+                                                <td style="white-space: nowrap;overflow: hidden; text-align:center">@row["AMTDISKHR"].ToString()</td>
+                                                <td style="white-space: nowrap;overflow: hidden; text-align:center">@row["AMTDISUSD"].ToString()</td>
+                                                <td style="white-space: nowrap;overflow: hidden; text-align:center">@row["PERCILENT"].ToString()</td>
+                                                <td style="white-space: nowrap;overflow: hidden; text-align:center">@row["PERDISB"].ToString()</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot>
+                                        <tr style="font-weight:bold;">
+                                            <td style="text-align:right" colspan="3">Total</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                                <h4 style="font-size:12px;color:black;font-weight:bold;">2. Monthly Disbursement by Payment frequency</h4>
+                                <!-- Form 2 -->
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr class="active">
+                                            <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;" rowspan="3">No</td>
+                                            <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;" rowspan="3">Disbursment</td>
+                                            <td style="text-align:center" colspan="3">
+                                                Payment Frequency
+                                            </td>
+                                            <td style="text-align:center" rowspan="3">
+                                                Total
+                                            </td>
+                                        </tr>
+                                        <tr class="active" style="boder;border-bottom:3pt solid #22d4ae;white-space: nowrap;overflow: hidden;">
+                                            <td style="text-align:center">
+                                                Monthly
+                                            </td>
+                                            <td style="text-align:center">
+                                                2 Week
+                                            </td>
+                                            <td style="text-align:center">
+                                                Weekly
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td> </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr style="font-weight:bold;">
+                                            <td style="text-align:right" colspan="4">Convert to $</td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                                <p>យើងខ្ញុំទាំងអស់គ្នាសូមធានាថាទិន្នន័យខាងលើពិតជាត្រឹមត្រូវពិតប្រាកដមែន។ បើខុសពីការពិតយើងខ្ញុំទាំងអស់គ្នា សុខចិត្តទទួលខុសត្រូវចំពោះមុខច្បាប់។</p>
+                                <!-- Form 2 -->
+                            </div>
+                        </div>
+                    </div>
+                        </div>
+            </div>
+        </div>
+        <!-- /page content -->
+        <script>
+    function printDiv(divID) {
+    //Get the HTML of div
+    var divElements = document.getElementById(divID).innerHTML;
+    //Get the HTML of whole page
+    var oldPage = document.body.innerHTML;
+    //Reset the page's HTML with div's HTML onl
+    document.body.innerHTML =
+        "<html><head><title></title></head><body>" +
+        divElements + "</body>";
+        var table=document.getElementById("print_report");
+        var r=0;
+        document.getElementById("header_print").style.display="inline-block";
+        document.getElementById("footer_print").style.display="inline-block";
+    //Print Page
+    window.print();
+    //Restore orignal HTML
+    document.body.innerHTML = oldPage;
+    window.location.href="";
+    //window.location.href="{{route('settlement.dashboard')}}";
+    document.getElementById("checkbox").checked = false;
+    }
+        </script>
+
+
+
+
+

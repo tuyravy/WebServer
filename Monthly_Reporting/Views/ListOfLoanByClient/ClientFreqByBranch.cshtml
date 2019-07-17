@@ -1,0 +1,324 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using System.Data;
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <span style="font-size:16px;color:black"><i class="fa fa-edit"></i> របាយការណ៍អតិថិជនជំពាក់តាមរបៀបសង (Branch)</span>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="#">Settings 1</a>
+                                </li>
+                                <li>
+                                    <a href="#">Settings 2</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="breadcrumb flat row nopadding" style="margin-top:-10px;">
+                        <a href="@Url.Action("Index","ListOfLoanByClient")">ប្រាក់ដើមជំពាក់តាមរបៀបសង (Branch)</a>
+                        <a href="@Url.Action("OSFreqByRM","ListOfLoanByClient")">ប្រាក់ដើមជំពាក់តាមរបៀបសង (RM)</a>
+                        <a href="@Url.Action("ClientFreqByBranch","ListOfLoanByClient")" class="active">អតិថិជនជំពាក់តាមរបៀបសង (Branch)</a>
+                        <a href="@Url.Action("ClientFreqByRM","ListOfLoanByClient")">អតិថិជនជំពាក់តាមរបៀបសង (RM)</a>
+                    </div>
+                    <p></p>
+                    <fieldset class="scheduler-border">
+                        <legend>ព័ត៌មានស្វែងរក</legend>
+                        <form class="form-horizontal" action="@Url.Action("SearchReportDateClientBranch", "ListOfLoanByClient")" method="post">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" style="text-align:right">កាលបរិច្ឆេទរបាការណ៍</label>
+                                <div class="col-sm-3">
+                                    @{
+                                        if (ViewBag.date_start != null)
+                                        {
+                                            <input type="text" class="form-control" id="date_start" name="date_start" value="@String.Format("{0:yyyy-MM-dd}", ViewBag.date_start)" placeholder="@DateTime.Now" autocomplete="off">
+                                        }
+                                        else
+                                        {
+                                            DateTime value = DateTime.Now;
+                                            <input type="text" class="form-control" id="date_start" name="date_start" value="@value" placeholder="@DateTime.Now" autocomplete="off">
+                                        }
+                                    }
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="submit" class="btn btn-primary">ស្វែងរក</button>
+                                    <a href="" class="btn btn-success"><i class="fa fa-refresh" aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                        </form>
+                    </fieldset>
+                    <fieldset class="scheduler-border">
+                        <legend></legend>
+                        <div class="row nopadding">
+                            <div class="col-md-6"></div>
+                            <div class="col-md-6 nopadding">
+                                <span class="pull-right">
+                                    <button type="button" class="btn btn-primary" onclick="javascript:printDiv('print_report')"><i class="fa fa-save"></i> Print</button>
+                                </span>
+                                <span class="pull-right">
+                                    <button type="button" class="btn btn-success"><i class="fa fa-file-excel-o"></i> Excel</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <div id="print_report">
+                                <div class="col-md-12" style="display:none;" id="header_print">
+                                    <div style="text-align:center;margin-left:250px;">
+                                        <img src="~/assets/images/report_logo.png" alt="user" style="width:90px;margin-top:20px;">
+                                        <img src="~/assets/images/logo_main.PNG" style="width:380px;" alt="user">
+                                    </div>
+                                    <h5 style="color:rgba(0,0,0,0.87);text-align:center;margin-left:320px;font-weight:bold;text-decoration: underline">របាយការណ៍ប្រមូលបំណុលលុបចេញពីបញ្ជី</h5>
+                                    <div class="row">
+                                        <span style="font-weight:bold; text-align:center;margin-left:450px ;font-weight:bold;font-size:12px">ប្រចាំខែៈ</span>
+                                        @{
+                                            if (ViewBag.date_start != null)
+                                            {
+                                                @String.Format("{0:dd/MMM/yyyy}", ViewBag.date_start);
+                                            }
+                                            else
+                                            {
+                                                DateTime value = DateTime.Now;
+                                                @String.Format("{0:dd/MMM/yyyy}", value);
+                                            }
+                                        }
+                                    </div>
+                                    <div class="row"> <span style="font-weight:bold;">នាយកដ្ឋានព័ត៌មានវិទ្យា</span></div>
+                                    <div class="row"> <span style="font-weight:bold;">ផ្នែកគ្រប់គ្រង និងគាំទ្រប្រព័ន្ធ</span></div>
+                                    <br />
+                                </div>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr class="active">
+                                            <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;" rowspan="3">ល.រ</td>
+                                            <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;" rowspan="3">សាខា</td>
+                                            <td style="text-align:center" colspan="3">
+                                                អតិថិជនជំពាក់តាមរបៀបសង
+                                            </td>
+                                            <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;white-space: nowrap;overflow: hidden;" rowspan="3">
+                                                សរុប
+                                            </td>
+                                            <td style="text-align:center" colspan="3">
+                                                %អតិថិជនជំពាក់តាមរបៀបសង
+                                            </td>
+                                            <td style="text-align:center" colspan="3">
+                                                កម្ចីយឺតយ៉ាវ(PAR1day)តា​មរបៀបសង
+                                            </td>
+                                            <td style="text-align:center" colspan="3">
+                                                %កម្ចីយឺតយ៉ាវ(PAR1day)តាមរបៀបសង
+                                            </td>
+
+                                            <td style="vertical-align:middle;boder;border-bottom:3pt solid #22d4ae;" rowspan="3">
+                                                %PAR1Day
+                                            </td>
+                                        </tr>
+                                        <tr class="active" style="boder;border-bottom:3pt solid #22d4ae;white-space: nowrap;overflow: hidden;">
+                                            <td style="text-align:center">
+                                                Monthly
+                                            </td>
+                                            <td style="text-align:center">
+                                                2 Weekly
+                                            </td>
+                                            <td style="text-align:center">
+                                                Weekly
+                                            </td>
+                                            <td style="text-align:center">
+                                                Monthly
+                                            </td>
+                                            <td style="text-align:center">
+                                                2 Weekly
+                                            </td>
+                                            <td style="text-align:center">
+                                                Weekly
+                                            </td>
+                                            <td style="text-align:center">
+                                                Monthly
+                                            </td>
+                                            <td style="text-align:center">
+                                                2 Weekly
+                                            </td>
+                                            <td style="text-align:center">
+                                                Weekly
+                                            </td>
+                                            <td style="text-align:center">
+                                                Monthly
+                                            </td>
+                                            <td style="text-align:center">
+                                                2 Weekly
+                                            </td>
+                                            <td style="text-align:center">
+                                                Weekly
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            double Monthly = 0;
+                                            double Weekly2 = 0;
+                                            double Weekly = 0;
+                                            double TotalAcc = 0;
+                                            double MonthlyPer = 0;
+                                            double WeeklyPer = 0;
+                                            double Weekly2Per = 0;
+                                            double LateMonthly = 0;
+                                            double Late2Week = 0;
+                                            double LateWeekly = 0;
+                                            double LateMonthlyPer = 0;
+                                            double Late2WeekPer = 0;
+                                            double LateWeeklyPer = 0;
+                                            double Par1DayPer = 0;
+                                        }
+                                        @foreach (DataRow row in ViewBag.clientfre.Rows)
+                                        {
+                                            <tr>
+                                                <td>@row["AutoID"].ToString()</td>
+                                                <td>@row["Brshort"].ToString()</td>
+                                                <td style="text-align:center">@String.Format("{0:N0}", row["Monthly"]) @{ Monthly += double.Parse(row["Monthly"].ToString());}</td>
+                                                <td style="text-align:center">@String.Format("{0:N0}", row["2Week"]) @{ Weekly2 += double.Parse(row["2Week"].ToString());}</td>
+                                                <td style="text-align:center">@String.Format("{0:N0}", row["Weekly"]) @{ Weekly += double.Parse(row["Weekly"].ToString());}</td>
+                                                <td style="text-align:center">@String.Format("{0:N0}", row["TotalAcc"]) @{ TotalAcc += double.Parse(row["TotalAcc"].ToString());}</td>
+                                                <td style="text-align:center">@String.Format("{0:N}", row["%Monthly"]) @{ MonthlyPer += double.Parse(row["%Monthly"].ToString());}</td>
+                                                <td style="text-align:center">@String.Format("{0:N}", row["%2Week"]) @{ Weekly2Per += double.Parse(row["%2Week"].ToString());}</td>
+                                                <td style="text-align:center">@String.Format("{0:N}", row["%Weekly"]) @{ WeeklyPer += double.Parse(row["%Weekly"].ToString());}</td>
+                                                <td style="text-align:center">@String.Format("{0:N0}", row["LateMonthly"]) @{ LateMonthly += double.Parse(row["LateMonthly"].ToString());}</td>
+                                                <td style="text-align:center">@String.Format("{0:N0}", row["Late2Week"]) @{ Late2Week += double.Parse(row["Late2Week"].ToString());}</td>
+                                                <td style="text-align:center">@String.Format("{0:N0}", row["LateWeekly"]) @{ LateWeekly += double.Parse(row["LateWeekly"].ToString());}</td>
+                                                <td style="text-align:center">@String.Format("{0:N}", row["%LateMonthly"]) @{ LateMonthlyPer += double.Parse(row["%LateMonthly"].ToString());}</td>
+                                                <td style="text-align:center">@String.Format("{0:N}", row["%Late2Week"]) @{ Late2WeekPer += double.Parse(row["%Late2Week"].ToString());}</td>
+                                                <td style="text-align:center">@String.Format("{0:N}", row["%LateWeekly"]) @{ LateWeeklyPer += double.Parse(row["%LateWeekly"].ToString());}</td>
+                                                <td style="text-align:center">@String.Format("{0:N}", row["%Par1Day"]) @{ Par1DayPer += double.Parse(row["%Par1Day"].ToString());}</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    
+                                        <tr style="font-weight:bold;">
+                                            <td style="text-align:right" colspan="2">សរុប KHR</td>
+
+                                            <td style="text-align:right">@String.Format("{0:N0}", @Monthly)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @Weekly2)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @Weekly)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @TotalAcc)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @MonthlyPer)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @Weekly2Per)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @WeeklyPer)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @LateMonthly)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @Late2Week)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @LateWeekly)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @LateMonthlyPer)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @Late2WeekPer)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @LateWeeklyPer)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @Par1DayPer)</td>
+                                        </tr>
+                                        <tr style="font-weight:bold;">
+                                            <td style="text-align:right" colspan="2">សរុប USD</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @Monthly / 4000)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @Weekly2 / 4000)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @Weekly / 4000)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @TotalAcc / 4000)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @MonthlyPer / 4000)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @Weekly2Per / 4000)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @WeeklyPer / 4000)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @LateMonthly / 4000)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @Late2Week / 4000)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @LateWeekly / 4000)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @LateMonthlyPer / 4000)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @Late2WeekPer / 4000)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @LateWeeklyPer / 4000)</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @Par1DayPer / 4000)</td>
+                                        </tr>
+                                    
+                                </table>
+                                <br />
+                                <div class="col-md-12" style="display:none;" id="footer_print">
+                                    <div class="col-md-4" style="width:200px;text-align:center">
+                                        <span class="row" style="font-weight:bold;">រៀបចំដោយ</span>
+                                        <span class="row">មន្ត្រីប្រព័ន្ធធនាគារស្នូល</span>
+                                    </div>
+                                    <div class="col-md-4" style="width:450px;text-align:center">
+                                        <span class="row">ត្រួតពិនិត្យដោយ</span>
+                                        <div class="row">
+                                            <span>ប្រធាននាយកដ្ឋានហិរញ្ញវត្ថុ</span>
+                                            <span style="margin-left:20px;">ប្រធាននាយកដ្ឋានព័ត៌មានវិទ្យា</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" style="width:360px;text-align:center">
+                                        <span class="row"> អនុម័តដោយ</span>
+                                        <span class="row">ប្រធាននាយិកាប្រតិបត្តិ</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </fieldset>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /page content -->
+        <style>
+            legend {
+                font-size: 12px;
+            }
+        </style>
+        @Scripts.Render("~/Scripts/jquery.min.js")
+        <script>
+    jQuery(document).ready(function () {
+
+        $("#date_start").datepicker({
+            format: 'yyyy-mm-dd',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '+50y:c+nn',
+            maxDate: '-1d'
+        });
+        $("#date_end").datepicker({
+            format: 'yyyy-mm-dd',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '+50y:c+nn',
+            maxDate: '-1d'
+        });
+    });
+
+
+    function printDiv(divID) {
+    //Get the HTML of div
+    var divElements = document.getElementById(divID).innerHTML;
+    //Get the HTML of whole page
+    var oldPage = document.body.innerHTML;
+    //Reset the page's HTML with div's HTML onl
+    document.body.innerHTML =
+        "<html><head><title></title></head><body>" +
+        divElements + "</body>";
+        var table=document.getElementById("print_report");
+        var r=0;
+        document.getElementById("header_print").style.display="inline-block";
+        document.getElementById("footer_print").style.display="inline-block";
+
+    //Print Page
+    window.print();
+    //Restore orignal HTML
+    document.body.innerHTML = oldPage;
+    window.location.href="";
+    //window.location.href="{{route('settlement.dashboard')}}";
+    document.getElementById("checkbox").checked = false;
+    }
+        </script>
+

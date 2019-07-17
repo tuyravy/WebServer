@@ -1,0 +1,270 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using System.Data;
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <span style="font-size:16px;color:black"><i class="fa fa-edit"></i> របាយការណ៍ប្រមូលបំណុលលុបចេញពីបញ្ជី</span>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="#">Settings 1</a>
+                                </li>
+                                <li>
+                                    <a href="#">Settings 2</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="breadcrumb flat row nopadding" style="margin-top:-10px;">
+                        <a href="@Url.Action("Index","WrittenOff")">ប្រមូលប្រចាំខែ</a>
+                        <a href="@Url.Action("Sumbymoth","WrittenOff")" class="active">សរុបតាមខែ</a>
+                        <a href="@Url.Action("GlComTool","WrittenOff")">ប្រៀបធៀបទឹកប្រាក់Tools និង GL MBWIN</a>
+                    </div>
+                    <p></p>
+                    <fieldset class="scheduler-border">
+                        <legend>ព័ត៌មានស្វែងរក</legend>
+                        <form class="form-horizontal" action="@Url.Action("SearchReportWrittenOffAllMonth", "WrittenOff")" method="post">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" style="text-align:right">កាលបរិច្ឆេទរបាការណ៍</label>
+                                <div class="col-sm-3">
+                                    @{
+                                        if (ViewBag.date_start != null)
+                                        {
+                                            <input type="text" class="form-control" id="date_start" name="date_start" value="@String.Format("{0:yyyy-MM-dd}", ViewBag.date_start)" placeholder="@DateTime.Now" autocomplete="off">
+                                        }
+                                        else
+                                        {
+                                            DateTime value = DateTime.Now;
+                                            <input type="text" class="form-control" id="date_start" name="date_start" value="@value" placeholder="@DateTime.Now" autocomplete="off">
+                                        }
+                                    }
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="submit" class="btn btn-primary">ស្វែងរក</button>
+                                    <a href="" class="btn btn-success"><i class="fa fa-refresh" aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                        </form>
+                    </fieldset>
+                    <fieldset class="scheduler-border">
+                        <legend></legend>
+                        <div class="row nopadding">
+                            <div class="col-md-6"></div>
+                            <div class="col-md-6 nopadding">
+                                <span class="pull-right">
+                                    <button type="button" class="btn btn-primary" onclick="javascript:printDiv('print_report')"><i class="fa fa-save"></i> Print</button>
+                                </span>
+                                <span class="pull-right">
+                                    <button type="button" class="btn btn-success"><i class="fa fa-file-excel-o"></i> Excel</button>
+                                </span>
+                            </div>
+                        </div>            
+                        <div class="table-responsive">
+                            <div id="print_report">
+                                <div class="col-md-12" style="display:none;" id="header_print">
+                                    <div style="text-align:center;margin-left:290px;">
+                                        <img src="~/assets/images/report_logo.png" alt="user" style="width:90px;margin-top:20px;">
+                                        <img src="~/assets/images/logo_main.PNG" style="width:380px;" alt="user">
+                                    </div>
+                                    <h5 style="color:rgba(0,0,0,0.87);text-align:center;margin-left:450px;font-weight:bold;text-decoration: underline">របាយការណ៍ប្រមូលបំណុលលុបចេញពីបញ្ជី ទាញចេញពីMBWIN Tools</h5>
+                                    <div class="row">
+                                        <span style="font-weight:bold; text-align:center;margin-left:550px ;font-weight:bold;font-size:12px">ប្រចាំខែៈ</span>
+                                        @{
+                                            if (ViewBag.date_start != null)
+                                            {
+                                                @String.Format("{0:dd/MMM/yyyy}", ViewBag.date_start);
+                                            }
+                                            else
+                                            {
+                                                DateTime value = DateTime.Now;
+                                                @String.Format("{0:dd/MMM/yyyy}", value);
+                                            }
+                                        }
+                                    </div>
+                                    <div class="row"> <span style="font-weight:bold;">នាយកដ្ឋានព័ត៌មានវិទ្យា</span></div>
+                                    <div class="row"> <span style="font-weight:bold;">ផ្នែកគ្រប់គ្រង និងគាំទ្រប្រព័ន្ធ</span></div>
+                                    <br />
+                                </div>
+                                <table class="table table-bordered">
+                                    <thead style="border-bottom:3pt solid #22d4ae;">
+                                        <tr class="active">
+                                            <th style="vertical-align:middle;border-bottom:3pt solid #22d4ae;text-align:center" rowspan="2">ល.រ</th>
+                                            <th style="vertical-align:middle;border-bottom:3pt solid #22d4ae;" rowspan="2">សាខា</th>
+                                            <th style="vertical-align:middle;border-bottom:3pt solid #22d4ae;white-space: nowrap;overflow: hidden;" rowspan="2">លេខកូដសាខា</th>
+                                            <th style="vertical-align:middle;text-align:center;boder;border-bottom:3pt solid #22d4ae;white-space: nowrap;overflow: hidden;" rowspan="2">
+                                                សមតុល្យបំណុលលុបចេញ
+                                                <p>ពីបញ្ជីដើមគ្រា</p>
+                                            </th>
+                                            @foreach (DataRow row in ViewBag.ColumnTitle.Rows)
+                                            {
+                                                <th style="text-align:center" colspan="2">@row["ColumnName"].ToString()</th>
+                                            }
+                                            <th style="vertical-align:middle;text-align:center;border-bottom:3pt solid #22d4ae; white-space: nowrap;overflow: hidden;" rowspan="2">
+                                                សមតុល្យបំណុលលុបចេញ
+                                                <p>ពីបញ្ជីចុងគ្រា</p>
+                                            </th>
+                                        </tr>
+                                        <tr class="active" style="text-align:center;border-bottom:3pt solid #22d4ae;white-space: nowrap;overflow: hidden;">
+                                            @foreach (DataRow row in ViewBag.ColumnTitle.Rows)
+                                            {
+                                                <th>
+                                                    បំណុលបានលុប
+                                                    <p>ចេញពីបញ្ជីក្នុងខែ</p>
+                                                </th>
+                                                <th>
+                                                    បំណុលលុបចេញពីបញ្ចី
+                                                    <p>ប្រមូលបានក្នុងខែ</p>
+                                                </th>
+                                            }
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            double BeginYear = 0;
+                                            double EndBalance = 0;
+                                            double DeductedAtm = 0;
+                                            double TotalCollectedAmt = 0;
+                                        }
+                                        @foreach (DataRow row in ViewBag.writtenoff.Rows)
+                                        {
+                                            <tr>
+                                                <td style="text-align:center">@row["id"].ToString()</td>
+                                                <td style="white-space: nowrap;overflow: hidden;">@row["BrNameKh"].ToString()</td>
+                                                <td style="text-align:center">@row["brcode"].ToString()</td>
+                                                <td style="text-align:right">@String.Format("{0:N0}", row["BeginYear"])  @{ BeginYear += double.Parse(row["BeginYear"].ToString());}</td>
+                                                @foreach (DataRow mrow in ViewBag.ColumnTitle.Rows)
+                                                {
+                                                    foreach (DataRow jrow in ViewBag.writtenoff.Rows)
+                                                    {
+                                                        if (row["brcode"].ToString() == jrow["brcode"].ToString())
+                                                        {
+                                                            <td style="text-align:right">
+                                                                @{
+                                                                    int valueMonth = int.Parse(String.Format("{0:MM}", jrow["Reportdate"]));
+                                                                    int NumMonth = int.Parse(mrow["KeyValue"].ToString());
+
+                                                                    if (valueMonth == NumMonth)
+                                                                    {
+                                                                        @String.Format("{0:N0}", jrow["DeductedAtm"]) { DeductedAtm += double.Parse(row["DeductedAtm"].ToString()); };
+                                                                    }
+
+                                                                }
+                                                            </td>
+                                                            <td style="text-align:right">
+                                                                @{
+                                                                    if (valueMonth == NumMonth)
+                                                                    {
+                                                                        @String.Format("{0:N0}", jrow["TotalCollectedAmt"]) { TotalCollectedAmt += double.Parse(row["TotalCollectedAmt"].ToString()); };
+                                                                    }
+
+                                                                }
+                                                            </td>
+                                                        }
+                                                    }
+                                                }
+
+                                                <td style="text-align:right">@String.Format("{0:N0}", row["EndBalance"]) @{ EndBalance += double.Parse(row["EndBalance"].ToString());}</td>
+                                            </tr>
+                                        }
+                                    </tbody>                                
+                                        <tr style="font-weight:bold;">
+                                            <td style="text-align:right" colspan="3">សរុប</td>
+                                            <td style="text-align:right">@String.Format("{0:N0}", @BeginYear)</td>
+                                            @foreach (DataRow mrow in ViewBag.ColumnTitle.Rows)
+                                            {
+                                                <td style="text-align:right">@String.Format("{0:N0}", @DeductedAtm)</td>
+                                                <td style="text-align:right">@String.Format("{0:N0}", @TotalCollectedAmt)</td>
+                                            }
+                                            <td style="text-align:right">@String.Format("{0:N0}", @EndBalance)</td>
+                                        </tr>                              
+                                </table>
+                                <br />
+                                <div class="col-md-12" style="display:none;" id="footer_print">
+                                    <div class="col-md-4" style="width:200px;text-align:center">
+                                        <span class="row" style="font-weight:bold;">រៀបចំដោយ</span>
+                                        <span class="row">មន្ត្រីប្រព័ន្ធធនាគារស្នូល</span>
+                                    </div>
+                                    <div class="col-md-4" style="width:450px;text-align:center">
+                                        <span class="row">ត្រួតពិនិត្យដោយ</span>
+                                        <div class="row">
+                                            <span>ប្រធាននាយកដ្ឋានហិរញ្ញវត្ថុ</span>
+                                            <span style="margin-left:20px;">ប្រធាននាយកដ្ឋានព័ត៌មានវិទ្យា</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" style="width:500px;text-align:center">
+                                        <span class="row"> អនុម័តដោយ</span>
+                                        <span class="row">ប្រធាននាយិកាប្រតិបត្តិ</span>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+</fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /page content -->
+<style>
+    legend {
+        font-size: 12px;
+    }
+</style>
+@Scripts.Render("~/Scripts/jquery.min.js")
+<script>
+    jQuery(document).ready(function () {
+        $("#date_start").datepicker({
+            format: 'yyyy-mm-dd',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '+50y:c+nn',
+            maxDate: '-1d'
+        });
+        $("#date_end").datepicker({
+            format: 'yyyy-mm-dd',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '+50y:c+nn',
+            maxDate: '-1d'
+        });
+    });
+    function printDiv(divID) {
+    //Get the HTML of div
+    var divElements = document.getElementById(divID).innerHTML;
+    //Get the HTML of whole page
+    var oldPage = document.body.innerHTML;
+    //Reset the page's HTML with div's HTML onl
+    document.body.innerHTML =
+        "<html><head><title></title></head><body>" +
+        divElements + "</body>";
+        var table=document.getElementById("print_report");
+        var r=0;
+        document.getElementById("header_print").style.display="inline-block";
+        document.getElementById("footer_print").style.display="inline-block";
+    //Print Page
+    window.print();
+    //Restore orignal HTML
+    document.body.innerHTML = oldPage;
+    window.location.href="";
+    //window.location.href="{{route('settlement.dashboard')}}";
+    document.getElementById("checkbox").checked = false;
+    }
+</script>

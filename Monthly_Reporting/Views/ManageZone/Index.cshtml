@@ -1,0 +1,341 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using System.Data;
+<div class="right_col" role="main">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <span style="font-size:16px;color:black"><i class="fa fa-edit"></i> គ្រប់គ្រងតាមសាខា</span>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="#">Settings 1</a>
+                                </li>
+                                <li>
+                                    <a href="#">Settings 2</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <fieldset class="scheduler-border">
+                        <legend>ព័ត៌មានស្វែងរក</legend>
+                        <form class="form-horizontal" action="" method="get">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" style="text-align:left">ឈ្មោះសាខា:</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="brname" id="brname" autocomplete="off" placeholder="ស្វែងរកតាមឈ្មោះសាខា">
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> ស្វែងរក</button>
+                                </div>
+
+                            </div>
+                        </form>
+
+                    </fieldset>
+                   
+                    <fieldset class="scheduler-border">
+                        <legend>ព័ត៌មានសាខា</legend>
+                        <div class="col-md-12 nopadding">
+                            <span class="pull-right">
+                                <button type="button" class="btn btn-primary btn-xs" id="change"><i class="fa fa-check"></i> ផ្លាស់ប្ដូរ</button>
+                                <button type="button" class="btn btn-success btn-xs" id="checkstatus"><i class="fa fa-check-circle-o"></i> ស្ថានភាព</button>
+                            </span>
+                        </div>
+                        <div id="print">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:center;">ល.រ</th>
+                                        <th>ឈ្មោះសាខា</th>
+                                        <th style="text-align:center;">លេខកូដសាខា</th>
+                                        <th style="text-align:center;">ប្រភេទសាខា</th>
+                                        <th>អាសយដ្ឋាន</th>
+                                        <th style="text-align:center;">ស្ថានភាព</th>
+                                        <th style="text-align:center;">សកម្មភាព</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="branch_zone">
+                                    @{
+                                        int i = 0;
+                                        foreach (DataRow dr in ViewBag.dt_ManageZone.Rows)
+                                        {
+
+                                            i++;
+                                            string Statussmg = "";
+                                            if (dr["checked"].ToString() == "1"){
+
+                                                foreach (DataRow ds in ViewBag.dt_status.Rows)
+                                                {
+                                                    if (dr["BrCode"].ToString()==ds["BrCode"].ToString())
+                                                    {
+                                                        Statussmg = ds["statusconnect"].ToString();
+                                                    }
+
+                                                }
+                                            }
+                                        <tr>
+                                            <td style="text-align:center;">@i</td>
+                                            <td>@dr["BrLetter"].ToString()</td>
+                                            <td style="text-align:center;">@dr["BrCode"].ToString()</td>
+                                            <td style="text-align:center;">@dr["BranchType"].ToString()</td>
+                                            <td>@dr["VPN"].ToString()</td>
+                                            <td>@Statussmg</td>
+                                            <td style="text-align:center;">
+                                                <div class="checkbox nopadding">
+                                                    <label>
+                                                        @if (dr["checked"].ToString() == "0")
+                                                        {
+                                                            <input type="checkbox" id="checkbox" value="@dr["BrCode"]">
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="checkbox" id="checkbox" value="@dr["BrCode"]" checked>
+                                                        }
+
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                    }
+                                    </tbody>
+                                </table>
+                        </div>
+                    </fieldset>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="width:35px">
+            <span class="fa fa-spinner fa-spin fa-3x" style="color:blue"></span>
+        </div>
+    </div>
+</div>
+<style>
+    .bd-example-modal-lg .modal-dialog {
+        display: table;
+        position: relative;
+        margin: 0 auto;
+        top: calc(50% - 50px);
+    }
+
+        .bd-example-modal-lg .modal-dialog .modal-content {
+            background-color: none;
+            border: none;
+        }
+
+    .bd-example-modal-lg .modal-dialog {
+        display: table;
+        position: relative;
+        margin: 0 auto;
+        top: calc(50% - 50px);
+    }
+
+        .bd-example-modal-lg .modal-dialog .modal-content {
+            background-color: none;
+            border: none;
+        }
+</style>
+@Scripts.Render("~/Scripts/jquery.min.js")
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<style>
+    input[type=checkbox] {
+        /* Double-sized Checkboxes */
+        -ms-transform: scale(2); /* IE */
+        -moz-transform: scale(2); /* FF */
+        -webkit-transform: scale(2); /* Safari and Chrome */
+        -o-transform: scale(2); /* Opera */
+        transform: scale(1.7);
+        padding: 10px;
+    }
+
+    .table-responsive {
+        height: 500px;
+        overflow-y: scroll;
+    }
+    /* Might want to wrap a span around your checkbox text */
+    .chbox {
+        /* Checkbox text */
+        font-size: 110%;
+        display: inline;
+    }
+</style>
+<!-- /page content -->
+<script>
+    $(document).ready(function () {
+        $("#checkstatus").on("click", function () {
+            swal({
+                title: "តើលោកអ្នកចង់ធ្វើការផ្ទៀងផ្ទាត់ទិន្នន័យមែនទេ ?",
+                // text: "នៅពេលលុបរួចអ្នកនឹងមិនបន្ថែមស្តុក !",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    //$('.modal').modal('show');
+                    $.ajax({
+                        url: '@Url.Action("CheckStatus", "ManageZone")',
+                        method: "POST",
+                        //data: { _token: _token },
+                        success: function (data) {
+                            console.log(data);
+                            swal("ជោគជ័យ!", "លោកអ្នកផ្ទៀងផ្ទាត់ទទួលបានជោគជ៍យ.", "success");
+                            $('.modal').modal('hide');
+                        }
+                    });
+
+
+                } else {
+                    swal("បដិសេច មិនធ្វើការផ្ទៀងផ្ទាត់!");
+                }
+            });
+        });
+        $("#brname").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#branch_zone tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+<script>
+    var brcode = [];
+    function onload() {
+        var $box = $('#branch_zone tr #checkbox');
+        if ($box.is(":checked")) {
+            $('#branch_zone tr').each(function (row, tr) {
+                brcode.push($(tr).find('#checkbox:checked').val());
+            });
+
+        } else {
+
+            var value = $('#branch_zone tr #checkbox').val();
+            var removeItem = value;
+            brcode = jQuery.grep(brcode, function (value) {
+                return value != removeItem;
+            });
+        }
+    }
+    $(document).ready(function () {
+        onload();
+        $("input:checkbox").on('click', function () {
+            // in the handler, 'this' refers to the box clicked on
+            var $box = $(this);
+            if ($box.is(":checked")) {
+                var value = $(this).val();
+                if (jQuery.inArray(value, brcode)==-1) {
+                    brcode.push(value);
+                }
+
+                //    newUrl=baseUrl +'/sales/payment'+'/'+cus_id+'/'+brcode;
+
+
+                // $("#delete").attr("href", newUrl);
+                // the name of the box is retrieved using the .attr() method
+                // as it is assumed and expected to be immutable
+                var group = "input:checkbox[name='" + $box.attr("name") + "']";
+                // the checked state of the group/box on the other hand will change
+                // and the current value is retrieved using .prop() method
+                $(group).prop("checked", false);
+                $box.prop("checked", true);
+
+            } else {
+                $box.prop("checked", false);
+                var value = $(this).val();
+                var removeItem = value;
+                    brcode = jQuery.grep(brcode, function (value) {
+                    return value!= removeItem;
+                });
+
+            }
+        });
+        $("#change").on("click", function () {
+            if (brcode.length != 0) {
+
+                //remove null
+                brcode = jQuery.grep(brcode, function (n, i) {
+                    return (n !== "" && n != null);
+                });
+
+                var BrZone = JSON.stringify(brcode);
+
+                //alert before request
+                swal({
+                    title: "តើលោកផ្លាស់ប្ដូរសាខាមែនទេ?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+                    if (willDelete) {
+
+                        $.ajax({
+                            url: '@Url.Action("UpdateZone", "ManageZone")',
+                            method: "POST",
+                            data: { BrZone: BrZone },
+                            success: function (data) {
+                                
+                            }
+                        });
+
+                        swal("ផ្លាស់ប្ដូរបានសម្រេច !", {
+                            icon: "success",
+                            timer: 1400,
+                            buttons: false,
+                        }).then(window.location.href = "");
+                    } else {
+                        swal("បដិសេច ផ្លាស់ប្ដូរមិនបានសម្រេច !", {
+                            icon: "warning",
+                            timer: 1400,
+                            buttons: false,
+                        });
+                    }
+                });
+            }
+
+        });
+    })
+
+    function printDiv(divID) {
+    //Get the HTML of div
+    var divElements = document.getElementById(divID).innerHTML;
+    //Get the HTML of whole page
+    var oldPage = document.body.innerHTML;
+    //Reset the page's HTML with div's HTML onl
+    document.body.innerHTML =
+        "<html><head><title></title></head><body>" +
+        divElements + "</body>";
+        var table=document.getElementById("print_report");
+        var r=0;
+        document.getElementById("header_print").style.display="inline-block";
+        document.getElementById("footer_print").style.display="inline-block";
+    //Print Page
+    window.print();
+    //Restore orignal HTML
+    document.body.innerHTML = oldPage;
+    window.location.href="";
+    //window.location.href="{{route('settlement.dashboard')}}";
+    document.getElementById("checkbox").checked = false;
+    }
+</script>
+
+

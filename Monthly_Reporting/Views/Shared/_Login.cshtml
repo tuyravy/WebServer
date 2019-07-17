@@ -1,0 +1,32 @@
+﻿<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login Page</title>
+    <link rel="shortcut icon" href="~/assets/images/logo.png" />
+       
+    @Styles.Render("~/Content/bootstrap.min.css")
+    @Styles.Render("~/Content/bootstrap-progressbar-3.3.4.min.css")
+    @Styles.Render("~/Content/font-awesome/css/font-awesome.min.css")
+    @Styles.Render("~/Content/custom.min.css")
+    <!-- Custom Theme Style -->
+    <link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+    <!--<script src="<?php //echo base_url();          ?>public/js/recaptcha/api.js?fallback=true"></script>-->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" type='text/css'>
+</head>
+    <body class="login">
+        <div>
+            <div class="login_wrapper">
+                <div class="animate form login_form" style="box-shadow: 0px 0px 10px #ccc;">
+                    <section class="login_content">
+                        <div>
+                            <img src="~/assets/images/logo.png" class="img-circle" style="width: 100px;height:auto;margin: -15px;">
+                        </div>
+                        @RenderBody()
+                    </section>
+                </div>
+            </div>
+           
+    </body>
+</html>

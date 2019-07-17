@@ -1,0 +1,211 @@
+﻿
+@{
+    ViewBag.Title = "SummaryReports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@{
+    ViewBag.Title = "MonthlyCollection";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@{
+    ViewBag.Title = "DailyCollection";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using System.Data;
+
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <span style="font-size:16px;color:black"><i class="fa fa-edit"></i> របាយការណ៍ប្រមូលបំណុលលុបចេញពីបញ្ជី</span>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="#">Settings 1</a>
+                                </li>
+                                <li>
+                                    <a href="#">Settings 2</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content nopadding">
+                    <div class="demo-container" style="height:auto;">
+                        <div class="col-md-12 nopadding">
+                            <div class="col-md-12 col-sm-12 col-xs-12 nopadding">
+                                <form class="form-inline">
+                                    <fieldset class="scheduler-border">
+                                        <legend class="scheduler-border">ព័ត៌មានស្វែងរក:</legend>
+                                        <div class="form-group">
+
+                                            <label for="exampleInputName2">ឈ្មោះសាខា:</label>
+                                            <select class="form-control select2" name="BrCode">
+                                                @{
+                                                    foreach (DataRow dr in ViewBag.dt_ManageZone.Rows)
+                                                    {
+                                                        <option value="@dr["BrCode"].ToString()" selected="@(dr["BrCode"].ToString() ==@ViewBag.BrCode ? "selected" : "")">@dr["BrLetter"].ToString() </option>
+                                                    }
+                                                }
+                                                <option value="ALL">All</option>
+                                            </select>
+
+                                        </div>
+
+                                        <div class="form-group">
+
+                                            <label for="exampleInputName2">ថ្ងៃចាប់ផ្ដើម:</label>
+                                            <input type="text" id="datestart" class="form-control" name="datestart" id="exampleInputName2"
+                                                   placeholder="@DateTime.Now"
+                                                   value=""
+                                                   readonly="true" style="background:white;">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail2">ថ្ងៃបញ្ចប់:</label>
+                                            <input type="text" class="form-control" id="dateend" name="dateend" data-provide="datepicker" data-date-format="yyyy-mm-dd" data-date-start-date="+2d"
+                                                   placeholder="@DateTime.Now"
+                                                   value=""
+                                                   readonly="true" style="background:white;">
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary" style="margin-top:5px;"><i class="fa fa-search"></i> ស្វែងរក</button>
+                                        <button type="submit" class="btn btn-success" style="margin-top:5px;"><i class="fa fa-download"></i> ទាយយក</button>
+                                        <button type="button" class="btn btn-primary" style="margin-top:5px;" onclick="javascript:printDiv('reports')" id="btnPrint">
+                                            <i class="fa fa-print"></i>
+                                            <span style="margin-left:5px;">បោះពុម្ភៈ</span>
+                                        </button>
+                                    </fieldset>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+                        <br />
+
+                        <div id="reports">
+                            <fieldset class="scheduler-border">
+                                <legend></legend>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="active" style="border-bottom:2pt solid #22d4ae;white-space: nowrap;overflow: hidden;">
+                                            <tr class="active">
+                                                <th rowspan="3" style="text-align:center;vertical-align:middle">ល.រ</th>
+                                                <th rowspan="3" style="text-align:center;vertical-align:middle">ឈ្មោះសាខា</th>
+                                                <th rowspan="3" style="text-align:center;vertical-align:middle">លេខកូដសាខា</th>
+                                                <th colspan="8" style="text-align:center;vertical-align:middle">សាច់ប្រាក់ប្រមូលប្រចាំខែ</th>
+                                                <th rowspan="3" style="text-align:center;vertical-align:middle">សរុប</th>
+
+                                            </tr>
+                                            <tr class="active">
+
+                                                <th colspan="3" style="text-align:center">អតិថិជនលុបចេញពីបញ្ជីរ</th>
+                                                <th colspan="3" style="text-align:center">អតិថិជនធំជាង៩០ថ្ងៃ</th>
+
+
+
+                                            </tr>
+                                            <tr class="active">
+
+                                                <th style="text-align:center">សមតុល្យ</th>
+                                                <th style="text-align:center">សាច់ប្រាក់ប្រមូលបាន</th>
+                                                <th style="text-align:center">%</th>
+                                                <th style="text-align:center">សមតុល្យ</th>
+                                                <th style="text-align:center">សាច់ប្រាក់ប្រមូលបាន</th>
+                                                <th style="text-align:center">%</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div>
+                            <div style="margin-top: 25px;margin-bottom: -12px;">
+
+                            </div>
+                            <br />
+                            <p> FX= 	 4,000 </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /page content -->
+<style>
+    legend {
+        font-size: 12px;
+    }
+</style>
+@Scripts.Render("~/Scripts/jquery.min.js")
+<script>
+    $(document).ready(function () {
+        $('.select2').select2();
+    });
+    jQuery(document).ready(function () {
+
+        $("#datestart").datepicker({
+            format: 'yyyy-mm-dd',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '+50y:c+nn',
+            maxDate: '-1d'
+        });
+        $("#date_end").datepicker({
+            format: 'yyyy-mm-dd',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '+50y:c+nn',
+            maxDate: '-1d'
+        });
+    });
+    function printDiv(divID) {
+    //Get the HTML of div
+        var divElements = document.getElementById(divID).innerHTML;
+        var oldPage = document.body.innerHTML;
+    //Get the HTML of whole page
+    document.body.innerHTML =
+        "<html><head><title></title></head><body>" +
+        divElements + "</body>";
+        var table=document.getElementById("print_report");
+        var r=0;
+        document.getElementById("header_print").style.display="inline-block";
+        document.getElementById("footer_print").style.display="inline-block";
+    //Print Page
+    window.print();
+    //Restore orignal HTML
+    document.body.innerHTML = oldPage;
+    window.location.href="@Url.Action("index", "WrittenOff")";
+    document.getElementById("checkbox").checked = false;
+    }
+</script>
+
+
+
+
+

@@ -1,0 +1,145 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using System.Data;
+<div class="right_col" role="main">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <span style="font-size:16px;color:black"><i class="fa fa-edit"></i> បញ្ជីររបាយការណ៍</span>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="#">Settings 1</a>
+                                </li>
+                                <li>
+                                    <a href="#">Settings 2</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <fieldset class="scheduler-border">
+                        <legend>ព័ត៌មានស្វែងរក</legend>
+                        <form class="form-inline" action="@Url.Action("ExecuteScript", "Reports")" method="post">
+                            <div class="form-group">
+                                <label for="exampleInputName2">ថ្ងៃចាប់ផ្ដើម:</label>
+                                <input type="text" class="form-control" id="datestart" autocomplete="off" placeholder="@DateTime.Now"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputName2">ថ្ងៃបញ្ចប់:</label>
+                                <input type="text" class="form-control" id="dateend" autocomplete="off" placeholder="@DateTime.Now"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputName2">ឈ្មោះរបាយការណ៍:</label>
+                                <select class="form-control select2" name="ReportCode" id="reportcode">
+                                    @{
+                                        string selectedOption = ViewBag.ReportCode;
+                                        foreach (DataRow dr in ViewBag.dt_Report.Rows)
+                                        {
+                                            <option value="@dr["Report_Code"].ToString()" selected="@(selectedOption==dr["Report_Code"].ToString() ? "selected" : "")">@dr["Name"].ToString() </option>
+                                        }
+
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail2">សាខា:</label>
+                                <select class="form-control select2" name="BrCode">
+                                    @{
+                                        foreach (DataRow dr in ViewBag.dt_ManageZone.Rows)
+                                        {
+                                            <option value="@dr["BrCode"].ToString()" selected="@(dr["BrCode"].ToString() ==@ViewBag.BrCode ? "selected" : "")">@dr["BrLetter"].ToString() </option>
+                                        }
+                                    }
+                                    <option value="ALL">All</option>
+                                </select>
+                            </div>
+
+
+                            <button type="submit" class="btn btn-success" style="margin-top:3px"><i class="fa fa-download"></i> ទាញយក</button>
+                            @*<a href="#" class="btn btn-success" style="margin-top:3px" id="downloadExcel"><i class="fa fa-download"></i> Download</a>*@
+                        </form>
+                    </fieldset>
+                    <fieldset class="scheduler-border">
+                        <legend>ព័ត៌មានរបាយការណ៍</legend>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="active">
+                                               
+                                </tr>
+                            </thead>
+                            <tbody>
+                                                     
+                             </tbody>
+                           </table>                                    
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+@Scripts.Render("~/Scripts/jquery.min.js")
+<style>
+    legend {
+        font-size: 12px;
+    } 
+</style>
+<script>
+    $(document).ready(function () {
+        $('.select2').select2();
+    });
+
+    jQuery(document).ready(function () {
+
+        $("#datestart").datepicker({
+            format: 'yyyy-mm-dd',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '+50y:c+nn',
+            maxDate: '-1d'
+        });
+        $("#dateend").datepicker({
+            format: 'yyyy-mm-dd',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '+50y:c+nn',
+            maxDate: '-1d'
+        });
+    });
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+    $("#downloadExcel").on("click", function () {
+        var reportcode = $("#reportcode").val();        
+      window.location.href = "/Reports/ExportExcel?reportcode=" + reportcode;
+        //$.ajax({
+        //    url: '/Reports/ExportExcel',
+        //    method: "POST",
+        //    data: { CSRF_TOKEN: CSRF_TOKEN, reportcode: reportcode },
+        //    success: function (data) {
+        //        console.log(data);
+              
+        //        //swal("បញ្ជាក់!", "លោកអ្នកលុបទទួលបានជោគជ័យ.", {
+        //        //    icon: "success",
+        //        //    timer: 1400,
+        //        //    buttons: false,
+        //        //});
+        //        //window.location.href = "/Reports";
+              
+        //    }
+        //});
+    });
+</script>
